@@ -1,8 +1,14 @@
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 
-function Hamburger({ isOpen, toggle }) {
+function Hamburger({ isOpen, toggle, ariaControls }) {
   return (
-    <button onClick={toggle} className="md:hidden">
+    <button
+      onClick={toggle}
+      className="md:hidden"
+      aria-expanded={isOpen}
+      aria-controls={ariaControls}
+      aria-label="Toggle menu"
+    >
       {isOpen ? (
         <XMarkIcon className="h-6 w-6 text-black" />
       ) : (

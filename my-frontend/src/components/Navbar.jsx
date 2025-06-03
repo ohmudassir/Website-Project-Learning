@@ -28,7 +28,7 @@ function Navbar() {
     <nav className="bg-white shadow-sm">
       <div className="max-w-screen-xl mx-auto px-4">
         <div className="flex justify-between items-center py-4">
-          <h1 className="text-xl font-bold">My Site</h1>
+          <h1 className="text-xl font-bold">Mudassir</h1>
 
           <div ref={menuRef} className="relative">
             <Hamburger isOpen={isOpen} toggle={toggleMenu} />

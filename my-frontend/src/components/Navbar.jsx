@@ -1,8 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Hamburger from "./Hamburger";
 
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null);
+
+  // Close menu if click outside
+  function handleClickOutside(event) {
+    if (menuRef.current && !menuRef.current.contains(event.target)) {
+      setIsOpen(false);
+    }
+  }
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
+
+  // Escape key closes menu
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    }
+    if (isOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+    } else {
+      document.removeEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -12,11 +48,17 @@ function Navbar() {
         <div className="flex justify-between items-center py-4">
           <h1>My Site</h1>
 
-          {/* Wrap hamburger and menu in one container */}
-          <div className="relative">
-            <Hamburger isOpen={isOpen} toggle={toggleMenu} />
+          {/* Container wrapping hamburger and menu */}
+          <div ref={menuRef} className="relative">
+            {/* Pass aria props to Hamburger */}
+            <Hamburger
+              isOpen={isOpen}
+              toggle={toggleMenu}
+              ariaControls="nav-menu"
+            />
 
             <ul
+              id="nav-menu" // Connect with aria-controls
               className={`
                 ${isOpen ? "block" : "hidden"}
                 md:flex md:space-x-4

@@ -25,15 +25,14 @@ function Navbar() {
   }, [isOpen]);
 
   return (
-    <nav className="bg-white shadow-sm">
+    <nav className="fixed top-0 left-0 w-full z-30 bg-white/30 backdrop-blur-lg shadow-sm animate-fade-in">
       <div className="max-w-screen-xl mx-auto px-4">
         <div className="flex justify-between items-center py-4">
-          <h1 className="text-xl font-bold">Mudassir</h1>
+          <h1 className="text-xl font-bold text-black">Mudassir</h1>
 
           <div ref={menuRef} className="relative">
             <Hamburger isOpen={isOpen} toggle={toggleMenu} />
 
-            {/* Mobile menu */}
             <ul
               className={`
                 ${isOpen ? "opacity-100 scale-100" : "opacity-0 scale-95 pointer-events-none"}
@@ -42,7 +41,7 @@ function Navbar() {
                 md:flex md:space-x-4
                 absolute md:static
                 right-0 mt-2 md:mt-0
-                bg-white md:bg-transparent
+                bg-white/80 md:bg-transparent
                 shadow-md md:shadow-none
                 rounded-md md:rounded-none
                 w-44 md:w-auto
@@ -53,7 +52,7 @@ function Navbar() {
                 <li key={item}>
                   <a
                     href={`/${item.toLowerCase()}`}
-                    className="block px-4 py-2 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-colors duration-200"
+                    className="block px-4 py-2 text-gray-900 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md transition-colors duration-200"
                   >
                     {item}
                   </a>

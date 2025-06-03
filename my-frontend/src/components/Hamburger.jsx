@@ -1,6 +1,6 @@
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/solid";
 
-function Hamburger({ isOpen, toggle, ariaControls }) {
+function Hamburger({ isOpen, toggle, ariaControls, buttonRef }) {
   return (
     <button
       onClick={toggle}
@@ -8,6 +8,7 @@ function Hamburger({ isOpen, toggle, ariaControls }) {
       aria-expanded={isOpen}
       aria-controls={ariaControls}
       aria-label="Toggle menu"
+      ref={buttonRef}
     >
       {isOpen ? (
         <XMarkIcon className="h-6 w-6 text-black" />

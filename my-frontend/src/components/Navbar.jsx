@@ -4,6 +4,8 @@ import Hamburger from "./Hamburger";
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
+  const firstMenuItemRef = useRef(null);
+  const hamburgerRef = useRef(null);
 
   // Close menu if click outside
   function handleClickOutside(event) {
@@ -28,6 +30,7 @@ function Navbar() {
     function handleKeyDown(event) {
       if (event.key === "Escape") {
         setIsOpen(false);
+        hamburgerRef.current?.focus(); // Return focus to hamburger
       }
     }
     if (isOpen) {
@@ -40,6 +43,17 @@ function Navbar() {
     };
   }, [isOpen]);
 
+  // Focus management on open/close
+  useEffect(() => {
+    if (isOpen) {
+      // Focus first menu item when menu opens
+      firstMenuItemRef.current?.focus();
+    } else {
+      // Return focus to hamburger button when menu closes
+      hamburgerRef.current?.focus();
+    }
+  }, [isOpen]);
+
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
@@ -48,17 +62,18 @@ function Navbar() {
         <div className="flex justify-between items-center py-4">
           <h1>My Site</h1>
 
-          {/* Container wrapping hamburger and menu */}
+          {/* Wrap hamburger and menu in one container */}
           <div ref={menuRef} className="relative">
-            {/* Pass aria props to Hamburger */}
+            {/* Pass ref to hamburger button */}
             <Hamburger
               isOpen={isOpen}
               toggle={toggleMenu}
               ariaControls="nav-menu"
+              buttonRef={hamburgerRef}
             />
 
             <ul
-              id="nav-menu" // Connect with aria-controls
+              id="nav-menu"
               className={`
                 ${isOpen ? "block" : "hidden"}
                 md:flex md:space-x-4
@@ -71,17 +86,30 @@ function Navbar() {
               `}
             >
               <li>
-                <a className="block px-4 py-2 hover:text-blue-600" href="/">
+                <a
+                  ref={firstMenuItemRef}
+                  tabIndex={isOpen ? 0 : -1} // only focusable when open
+                  className="block px-4 py-2 hover:text-blue-600"
+                  href="/"
+                >
                   Home
                 </a>
               </li>
               <li>
-                <a className="block px-4 py-2 hover:text-blue-600" href="/about">
+                <a
+                  tabIndex={isOpen ? 0 : -1}
+                  className="block px-4 py-2 hover:text-blue-600"
+                  href="/about"
+                >
                   About
                 </a>
               </li>
               <li>
-                <a className="block px-4 py-2 hover:text-blue-600" href="/contact">
+                <a
+                  tabIndex={isOpen ? 0 : -1}
+                  className="block px-4 py-2 hover:text-blue-600"
+                  href="/contact"
+                >
                   Contact
                 </a>
               </li>
